@@ -1,0 +1,19 @@
+.plan-card-container {
+  outline: 1px solid black;
+  width: 22%;
+  margin-bottom: 50px;
+
+  .plan-name {
+    h3 {
+      text-align: center;
+    }
+  }
+  .plan-parameters-container {
+    display: flex;
+    .plan-parameters {
+      width: 33.33%;
+      text-align: center;
+      outline: 1px solid black;
+    }
+  }
+}

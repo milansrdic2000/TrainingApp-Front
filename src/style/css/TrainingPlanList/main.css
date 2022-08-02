@@ -1,0 +1,49 @@
+.plan-card-container {
+  outline: 1px solid black;
+  width: 22%;
+  margin-bottom: 50px;
+}
+.plan-card-container .plan-name h3 {
+  text-align: center;
+}
+.plan-card-container .plan-parameters-container {
+  display: flex;
+}
+.plan-card-container .plan-parameters-container .plan-parameters {
+  width: 33.33%;
+  text-align: center;
+  outline: 1px solid black;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main.plan-container-main {
+  background-color: aqua;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main.plan-container-main .main-container {
+  width: 80%;
+  background-color: pink;
+  min-height: 80vh;
+}
+main.plan-container-main .main-container > h1 {
+  text-align: center;
+}
+main.plan-container-main .main-container .plan-list-container {
+  background-color: aquamarine;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/*# sourceMappingURL=main.css.map */

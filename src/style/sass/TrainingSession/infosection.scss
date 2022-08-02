@@ -1,0 +1,30 @@
+.training-session-main {
+  .plan-info-section {
+    padding-top: 0.1px;
+    margin-top: 15px;
+    outline: 1px solid black;
+    // Ime treninga
+    .training-plan-name {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+
+      font-size: 2rem;
+    }
+    // Info o treningu karakteristike
+    .training-plan-info-container {
+      display: flex;
+      .training-info {
+        width: 33.33%;
+        text-align: center;
+      }
+    }
+    .training-plan-action-container {
+      display: flex;
+      .training-action-item {
+        width: 33.33%;
+        text-align: center;
+      }
+    }
+  }
+}

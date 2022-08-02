@@ -1,0 +1,34 @@
+.training-session-main .training-list-container .single-training-container {
+  background-color: pink;
+}
+.training-session-main .training-list-container .single-training-container .training-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.training-session-main .training-list-container .single-training-container .exercises-list-container {
+  background-color: aqua;
+}
+.training-session-main .training-list-container .single-training-container .exercises-list-container .single-exercise-container .exercise-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.training-session-main .training-list-container .single-training-container .exercises-list-container .single-exercise-container .sets-list-container {
+  outline: 1px solid red;
+}
+.training-session-main .training-list-container .single-training-container .exercises-list-container .single-exercise-container .sets-list-container .single-set-container {
+  display: flex;
+  align-items: center;
+}
+.training-session-main .training-list-container .single-training-container .exercises-list-container .single-exercise-container .sets-list-container .single-set-container .completion-set-indicator {
+  background-color: red;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+.training-session-main .training-list-container .single-training-container .exercises-list-container .single-exercise-container .sets-list-container .single-set-container .set-completed-indicator {
+  background-color: blue;
+}
+
+/*# sourceMappingURL=singletraining.css.map */

@@ -1,0 +1,47 @@
+.training-session-main {
+  .training-list-container {
+    .single-training-container {
+      background-color: pink;
+      //heder treninga, ime i da li je kompletiran
+      .training-header {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      //lista vezbi
+      .exercises-list-container {
+        background-color: aqua;
+        //pojedinacna vezba
+        .single-exercise-container {
+          // Header pojedinacne vezbe
+          .exercise-header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+          }
+          // Lista setova
+          .sets-list-container {
+            outline: 1px solid red;
+
+            // pojedinacan set
+            .single-set-container {
+              display: flex;
+              align-items: center;
+              //indikator kompletnosti
+              .completion-set-indicator {
+                background-color: red;
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+              }
+              .set-completed-indicator {
+                background-color: blue;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
