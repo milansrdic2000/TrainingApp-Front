@@ -1,0 +1,27 @@
+.training-session-main .plan-info-section {
+  padding-top: 0.1px;
+  margin-top: 15px;
+  outline: 1px solid black;
+}
+.training-session-main .plan-info-section .training-plan-name {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 2rem;
+}
+.training-session-main .plan-info-section .training-plan-info-container {
+  display: flex;
+}
+.training-session-main .plan-info-section .training-plan-info-container .training-info {
+  width: 33.33%;
+  text-align: center;
+}
+.training-session-main .plan-info-section .training-plan-action-container {
+  display: flex;
+}
+.training-session-main .plan-info-section .training-plan-action-container .training-action-item {
+  width: 33.33%;
+  text-align: center;
+}
+
+/*# sourceMappingURL=infosection.css.map */

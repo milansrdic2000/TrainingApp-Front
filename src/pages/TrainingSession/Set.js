@@ -1,49 +1,98 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
+import { TrainingContext } from './TrainingSession'
+import React from 'react'
+function Set({
+  set_id,
+  setType,
+  rest,
+  setGoal,
+  completed,
+  completionInfo,
+  training_id,
+  nextSetToDo,
+}) {
+  const { current: contextData } = useContext(TrainingContext)
+  const { completeSet } = contextData
 
-function Set(props) {
-  let { trajanje, ponavljanje } = props
-
-  // da li je serija kompletirana ili ne
-  const [kompletirano, setKompletirano] = useState(
-    props.kompletiranaSerija != null
+  //vrednost input polja gde
+  const [inputValue, setInputValue] = useState(
+    completionInfo ? completionInfo.value : ''
   )
-  //da li je vremenska serija ili serija na ponavljanja
-  const [vremenskaSerija, setVremenskaSerija] = useState(
-    !(trajanje == undefined)
-  )
-
-  //za vrednost input polja
-  const [serijaVrednost, setSerijaVrednost] = useState(
-    kompletirano ? (vremenskaSerija ? trajanje : ponavljanje) : ''
-  )
+  useEffect(() => {
+    console.log('sets render')
+  })
+  const inputHandler = (e) => {
+    if (!completed) {
+      setInputValue(e.target.value)
+    }
+  }
   return (
     <>
       {/* pojedinacan set kontejner */}
-      <div className='single-set-container'>
+      <div
+        className={`single-set-container ${
+          nextSetToDo ? 'next-set-to-do' : ''
+        }`}
+      >
         {/* Indikator kompletnosti */}
         <div
           className={`completion-set-indicator
-        ${kompletirano ? 'set-completed-indicator' : ''}
+        ${completed ? 'set-completed-indicator' : ''}
         `}
         ></div>
         {/* Input polje */}
         <input
           type='text'
           className='set-repetition-number-input'
-          placeholder={vremenskaSerija ? 'Vreme' : 'broj ponavljanja'}
-          value={serijaVrednost}
-          onChange={(e) => {
-            setSerijaVrednost(e.target.value)
-          }}
+          placeholder={setType == 'time' ? 'Vreme' : 'broj ponavljanja'}
+          value={completed ? inputValue : inputValue}
+          onChange={inputHandler}
         />
         {/* Dugme za kompletiranje */}
-        {!kompletirano ? <button>Kompletiraj</button> : ''}
-        {trajanje && <span className='set-goal set-time'>{trajanje}sec</span>}
-        {ponavljanje && (
-          <span className='set-goal set-reps'>{ponavljanje}kom</span>
+        {!completed ? (
+          <button
+            onClick={(e) => {
+              if (inputValue === '') {
+                alert('Morate uneti vrednost serije')
+                return
+              }
+              if (!nextSetToDo) {
+                alert('Ne mozete preskakati serije!')
+                return
+              }
+              completeSet(training_id, set_id, inputValue)
+
+              // rokBa.current(training_id, set_id, inputValue)
+            }}
+          >
+            Kompletiraj
+          </button>
+        ) : (
+          ''
         )}
+        {setType == 'time' && (
+          <span className='set-goal set-time'>{setGoal}sec</span>
+        )}
+        {setType == 'repetition' && (
+          <span className='set-goal set-reps'>{setGoal}kom</span>
+        )}
+        {/* Ovo refaktorisati  */}
       </div>
     </>
   )
 }
-export default Set
+
+function areEqual(prevProp, nextProp) {
+  // console.log('prevProp:')
+  // console.log(prevProp)
+  // console.log('nextProp')
+  // console.log(nextProp)
+  if (
+    prevProp.completed === nextProp.completed &&
+    prevProp.nextSetToDo === nextProp.nextSetToDo
+  ) {
+    return true
+  }
+  return false
+}
+export default React.memo(Set, areEqual)

@@ -11,11 +11,7 @@ function PlanCard(props) {
         >
           {props.ime}
         </h3>
-        <Link
-          to={`/training_plans/${props.planId}/training_sessions/${props.sessionId}`}
-        >
-          Munje barikade
-        </Link>
+        <Link to={`/training_sessions/${props.sessionId}`}>Munje barikade</Link>
         {props.planId}
       </div>
       <div className='plan-parameters-container'>

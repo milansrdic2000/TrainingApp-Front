@@ -22,7 +22,7 @@
           }
           // Lista setova
           .sets-list-container {
-            outline: 1px solid red;
+            // outline: 1px solid red;
 
             // pojedinacan set
             .single-set-container {
@@ -38,6 +38,10 @@
               .set-completed-indicator {
                 background-color: blue;
               }
+            }
+            //kompletiran set
+            .next-set-to-do {
+              outline: 2px solid red;
             }
           }
         }

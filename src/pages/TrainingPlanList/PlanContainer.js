@@ -3,7 +3,7 @@ import '../../style/css/TrainingPlanList/main.css'
 
 import PlanCard from './PlanCard'
 function PlanContainer() {
-  const [planovi, setPlanovi] = useState([])
+  const [plans, setPlans] = useState([])
   useEffect(() => {
     async function getPlans() {
       try {
@@ -11,7 +11,8 @@ function PlanContainer() {
           'http://localhost:5000/api/trainingplans/user'
         )
         const data = await result.json()
-        setPlanovi(data.data)
+
+        setPlans(data.data)
       } catch (e) {
         alert(e)
       }
@@ -24,14 +25,14 @@ function PlanContainer() {
       <div className='main-container'>
         <h1>Trening planovi</h1>
         <div className='plan-list-container'>
-          {planovi.map((element, index) => {
-            console.log(planovi)
+          {plans.map((element, index) => {
+            console.log(plans)
             return (
               <PlanCard
                 key={index}
                 planId={element._id}
-                sessionId={element.aktivne_sesije?._id}
-                ime={element.ime}
+                sessionId={element.activeSessions?._id}
+                planName={element.planName}
               />
             )
           })}
