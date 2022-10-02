@@ -30,5 +30,8 @@
 .training-session-main .training-list-container .single-training-container .exercises-list-container .single-exercise-container .sets-list-container .next-set-to-do {
   outline: 2px solid red;
 }
+.training-session-main .training-list-container .next-training-to-do {
+  outline: 3px solid blue;
+}
 
 /*# sourceMappingURL=singletraining.css.map */

@@ -1,28 +1,42 @@
 import Training from './Training'
 import { TrainingContext } from './TrainingSession'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useCallback } from 'react'
 import React from 'react'
 function TrainingList({
   trainingPlan,
   completedDays,
-  getCompletedSetsForTraining,
-  getCompletedSetsForExercise,
-  completeSet,
+  setNextSetToDo,
+  setNextTraining,
 }) {
   const { days } = trainingPlan
 
   useEffect(() => {
-    console.log('tlist render')
+    console.log('tlist useeffect')
   })
+  // iz completedDays uzimamo onaj element niza koji odgovara trening ID-ju
+  const getCompletedSetsForTraining = useCallback(
+    (completedDays, training_id) => {
+      let completedSetsForTraining = null
+      completedDays.forEach((element) => {
+        if (training_id == element.training_id) {
+          completedSetsForTraining = element.completedSets
+        }
+      })
 
+      return completedSetsForTraining
+    },
+    []
+  )
   let nextSetToDo = null //referenca na seriju koja treba da se radi sledece
+  let nextTraining = null
   return (
     <>
       <section className='training-list-container'>
         {/* Mapiramo svaki dan u jedan Training */}
         {days.map((day, index) => {
+          let isCompleted = false
           let setsPerTrainingCounter = 0 //
-          console.log(day)
+
           // trening id koji se radi taj dan
           const training_id = day.training?._id
 
@@ -31,60 +45,51 @@ function TrainingList({
             completedDays,
             training_id
           )
-          // completedDays.forEach((element) => {
-          //   if (training_id == element.training_id) {
-          //     completedSetsForTraining = element.completedSets
-          //   }
-          // })
 
           //Ako se trenira taj dan
           if (!day.restingDay) {
             let exercises = day.training?.exercises //idemo po vezbama za odredjeni trening
-            exercises?.forEach((elem) => {
-              setsPerTrainingCounter += elem.sets.length //brojimo setove svake vezbe za ceo trening
-
-              let completedSetsForExercise = []
-
-              completedSetsForExercise = getCompletedSetsForExercise(
-                elem,
-                completedSetsForTraining
-              )
+            exercises?.forEach((exerc) => {
+              setsPerTrainingCounter += exerc.sets.length //brojimo setove svake vezbe za ceo trening
 
               // odredjivanje da li je set kompletiran
-              elem.sets?.forEach((set) => {
-                // completedSetsForTraining?.forEach((complSet) => {
-                //   //trazimo kompletiranu seriju iz liste kompletiranih koja odgovara elem.sets
-                //   if (complSet.set_id === set._id) {
-                //     set.completionInfo = complSet // ovde dodajemo informacije vec postojecem setu
-                //     completedSetsForExercise.push(complSet)
-
-                //     return
-                //   }
-                // })
-
-                //da li je set onaj koji treba sledeci da se radi
-                if (!set.completionInfo && !nextSetToDo) {
+              exerc.sets?.forEach((set) => {
+                if (nextSetToDo) return //Ako smo izracunali vec koji nam je nextSet, svaki sledeci ce automatski biti nekompletiran
+                let isCompleted = false
+                completedSetsForTraining?.forEach((complSet) => {
+                  //trazimo kompletiranu seriju iz liste kompletiranih koja odgovara elem.sets
+                  if (complSet.set_id === set._id) {
+                    isCompleted = true
+                    return
+                  }
+                })
+                if (!isCompleted && !nextSetToDo) {
                   nextSetToDo = set
-                  set.nextSetToDo = true
-                } else {
-                  set.nextSetToDo = false
+                  setNextSetToDo(set) //za roditelja
                 }
               })
-              elem.completedSetsForExercise = completedSetsForExercise //dodeljujemo objektu vezbe informacije o kompletiranim serijama
             })
+            // da li je trening kompletiran, poredimo setove u treningu sa brojem kompletiranih setova
+            isCompleted =
+              setsPerTrainingCounter === completedSetsForTraining?.length
+
+            //prvi trening koji nije kompletiran, je nas aktivan trening
+            if (!nextTraining && !isCompleted) {
+              nextTraining = day.training
+              setNextTraining(day.training, setsPerTrainingCounter)
+            }
           }
 
           return (
             <Training
-              key={index}
+              key={day._id}
               training_id={training_id}
               dayIndex={index + 1} // redni broj dana
               restingDay={day.restingDay} //da li se odmara taj dan
-              exercises={!day.rest ? day.training?.exercises : []}
+              exercises={!day.restingDay ? day.training?.exercises : []}
               completedSetsForTraining={completedSetsForTraining}
-              isCompleted={
-                setsPerTrainingCounter === completedSetsForTraining?.length
-              }
+              isCompleted={isCompleted} // da li je trening kompletiran
+              isNextTraining={nextTraining?._id === training_id}
             ></Training>
           )
         })}
